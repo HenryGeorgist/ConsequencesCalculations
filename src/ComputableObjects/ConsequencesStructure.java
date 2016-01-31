@@ -13,7 +13,7 @@ import Utils.ConsequencesErrorReport;
  */
 public class ConsequencesStructure implements Utils.IValidate {
     private String _Name;
-    private ImmutableOccupancyType _Occtype;
+    private ImmutableOccupancyType _Occtype;//ensure this is a pointer.
     private double _MeanStructureValue;
     private double _MeanContentValue;
     private double _MeanCarValue;

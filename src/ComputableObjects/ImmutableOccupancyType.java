@@ -26,6 +26,18 @@ public class ImmutableOccupancyType {
     public final double ContentValueCoV(){return _ContentValueCoV;}
     public final double CarValueCoV(){return _CarValueCoV;}
     public final double OtherValueCoV(){return _OtherValueCoV;}
+    public TabularFunctions.ISampleDeterministically GetStructureDamageFunction(){return _StructureDamageFunction;}
+    public void SetStructureDamageFunction(TabularFunctions.ISampleDeterministically StructureDamageFunction){_StructureDamageFunction = StructureDamageFunction;}
+    public TabularFunctions.ISampleDeterministically GetContentDamageFunction(){return _ContentDamageFunction;}
+    public void SetContentDamageFunction(TabularFunctions.ISampleDeterministically ContentDamageFunction){_ContentDamageFunction = ContentDamageFunction;}
+    public TabularFunctions.ISampleDeterministically GetCarDamageFunction(){return _CarDamageFunction;}
+    public void SetCarDamageFunction(TabularFunctions.ISampleDeterministically CarDamageFunction){_CarDamageFunction = CarDamageFunction;}
+    public TabularFunctions.ISampleDeterministically GetOtherDamageFunction(){return _OtherDamageFunction;}
+    public void SetOtherDamageFunction(TabularFunctions.ISampleDeterministically OtherDamageFunction){_OtherDamageFunction = OtherDamageFunction;}
+    public ImmutableOccupancyType(String OcctypeName, DamageCategory DamCat){
+        _Name = OcctypeName;
+        _DamageCategory = DamCat;
+    }
     public double StructureDamagePercent(double DepthAboveFFE){
         return _StructureDamageFunction.GetYFromX(DepthAboveFFE);
     }

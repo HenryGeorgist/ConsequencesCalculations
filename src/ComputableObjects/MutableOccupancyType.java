@@ -24,6 +24,36 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
     private boolean _hasOtherDamage;
     private TabularFunctions.ISampleWithUncertainty _OtherDamageFunction;
     private Distributions.ContinuousDistribution _FoundationHeight;
+    public ImmutableOccupancyType GetOcctypeSample(long Seed){
+        java.util.Random R = new java.util.Random(Seed);
+        //sample all of the curves
+        ImmutableOccupancyType Output = new ImmutableOccupancyType(_Name, _DamageCategory);
+        if(_hasStructureDamage){
+            Output.SetStructureDamageFunction(_StructureDamageFunction.CurveSample(R.nextDouble()));
+        }else{
+            R.nextDouble();//to ensure reproducability if users change number of curves between alternatives.
+        }
+        if(_hasContentDamage){
+            Output.SetContentDamageFunction(_ContentDamageFunction.CurveSample(R.nextDouble()));
+        }else{
+            R.nextDouble();//to ensure reproducability if users change number of curves between alternatives.
+        }
+        if(_hasCarDamage){
+            Output.SetCarDamageFunction(_CarDamageFunction.CurveSample(R.nextDouble()));
+        }else{
+            R.nextDouble();//to ensure reproducability if users change number of curves between alternatives.
+        }
+        if(_hasOtherDamage){
+            Output.SetOtherDamageFunction(_OtherDamageFunction.CurveSample(R.nextDouble()));
+        }else{
+            R.nextDouble();//to ensure reproducability if users change number of curves between alternatives.
+        }
+        //sample the coefficants of variation.
+        //foundation height
+        //structure value
+        //lethality thresholds?
+        return Output;
+    }
     @Override
     public void ReadFromXMLElement(Element ele) {
         //need to match LifeSim, FIA, and GeoFDA's spec.
