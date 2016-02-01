@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
  * @author Will_and_Sara
  */
 public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils.IValidate{
+//<editor-fold defaultstate="collapsed" desc="Private Variables">
     private String _Name;
     private DamageCategory _DamageCategory;
     private boolean _hasStructureDamage;
@@ -24,6 +25,29 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
     private boolean _hasOtherDamage;
     private TabularFunctions.ISampleWithUncertainty _OtherDamageFunction;
     private Distributions.ContinuousDistribution _FoundationHeight;
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Property Access">
+    public String getName(){return _Name;}
+    public void Rename(String NewName){_Name = NewName;}
+    public DamageCategory getDamageCategory(){return _DamageCategory;}
+    public void setDamageCategory(DamageCategory DamCat){_DamageCategory = DamCat;}
+    public boolean HasStructureDamage(){return _hasStructureDamage;}
+    public void setHasStructureDamage(boolean value){_hasStructureDamage = value;}
+    public TabularFunctions.ISampleWithUncertainty getStructureDamageFunction(){return _StructureDamageFunction;}
+    public void setStructureDamageFunction(TabularFunctions.ISampleWithUncertainty NewDamageFunction){_StructureDamageFunction = NewDamageFunction;}
+    public boolean HasContentDamage(){return _hasContentDamage;}
+    public void setHasContentDamage(boolean value){_hasContentDamage = value;}
+    public TabularFunctions.ISampleWithUncertainty getContentDamageFunction(){return _ContentDamageFunction;}
+    public void setContentDamageFunction(TabularFunctions.ISampleWithUncertainty NewDamageFunction){_ContentDamageFunction = NewDamageFunction;}
+    public boolean HasCarDamage(){return _hasCarDamage;}
+    public void setHasCarDamage(boolean value){_hasCarDamage = value;}
+    public TabularFunctions.ISampleWithUncertainty getCarDamageFunction(){return _CarDamageFunction;}
+    public void setCarDamageFunction(TabularFunctions.ISampleWithUncertainty NewDamageFunction){_CarDamageFunction = NewDamageFunction;}
+    public boolean HasOtherDamage(){return _hasOtherDamage;}
+    public void setHasOtherDamage(boolean value){_hasOtherDamage = value;}
+    public TabularFunctions.ISampleWithUncertainty getOtherDamageFunction(){return _OtherDamageFunction;}
+    public void setOtherDamageFunction(TabularFunctions.ISampleWithUncertainty NewDamageFunction){_OtherDamageFunction = NewDamageFunction;}
+//</editor-fold>
     public ImmutableOccupancyType GetOcctypeSample(long Seed){
         java.util.Random R = new java.util.Random(Seed);
         //sample all of the curves
