@@ -16,6 +16,8 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
 //<editor-fold defaultstate="collapsed" desc="Private Variables">
     private String _Name;
     private DamageCategory _DamageCategory;
+    private int _NumberOfStories;
+    private double _NumberOfHouseholds;//continuous distribution?
     private boolean _hasStructureDamage;
     private TabularFunctions.ISampleWithUncertainty _StructureDamageFunction;
     private boolean _hasContentDamage;
@@ -25,6 +27,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
     private boolean _hasOtherDamage;
     private TabularFunctions.ISampleWithUncertainty _OtherDamageFunction;
     private Distributions.ContinuousDistribution _FoundationHeight;
+    
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Property Access">
     public String getName(){return _Name;}

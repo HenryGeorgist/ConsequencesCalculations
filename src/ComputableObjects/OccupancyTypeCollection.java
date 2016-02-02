@@ -16,7 +16,15 @@ import org.w3c.dom.Element;
 public class OccupancyTypeCollection implements Utils.ISerializeToXMLElement, Utils.IValidate{
     private ArrayList<MutableOccupancyType> _Occtypes;
     private String _FilePath;
-
+    public ArrayList<MutableOccupancyType> getOccupancyTypes(){return _Occtypes;}
+    public ArrayList<ImmutableOccupancyType> getOccupancyTypeSample(long seed){
+        ArrayList<ImmutableOccupancyType> result = new ArrayList<>();
+        java.util.Random R = new java.util.Random(seed);
+        for(MutableOccupancyType OT : _Occtypes){
+            result.add(OT.GetOcctypeSample(R.nextLong()));
+        }
+        return result;
+    }
     @Override
     public void ReadFromXMLElement(Element ele) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

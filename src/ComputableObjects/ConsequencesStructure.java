@@ -30,6 +30,9 @@ public class ConsequencesStructure implements Utils.IValidate {
         double structval = _MeanStructureValue + (_MeanStructureValue * _Occtype.StructureValueCoV());
         return structval * _Occtype.StructureDamagePercent(DepthAboveGround - fh);
     }
+    //compute life loss
+    //private computepopulationremaining?
+    
     @Override
     public ConsequencesErrorReport Validate() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
