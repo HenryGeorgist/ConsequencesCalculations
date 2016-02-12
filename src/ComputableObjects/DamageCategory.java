@@ -5,6 +5,12 @@
  */
 package ComputableObjects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -13,7 +19,9 @@ import org.w3c.dom.Element;
  */
 public class DamageCategory implements Utils.ISerializeToXMLElement{
     private String _Name;
+    private String _Description;
     private int _ReconstructionPeriod;//in days...
+    private double _CostFactor;
     public String Name(){return _Name;}
     public int ReconstructionPeriod(){return _ReconstructionPeriod;}
     public DamageCategory(String DamCatName, int DaysToRebuild){
@@ -35,6 +43,33 @@ public class DamageCategory implements Utils.ISerializeToXMLElement{
     }
     @Override
     public Element WriteToXMLElement() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            DocumentBuilderFactory d = DocumentBuilderFactory.newInstance();
+            DocumentBuilder Db;
+            Db = d.newDocumentBuilder();
+            Document doc = Db.newDocument();
+            Element DamCat = doc.createElement("DamageCategory");
+            
+            Element NameString = doc.createElement("Name");
+            NameString.setNodeValue(_Name);
+            DamCat.appendChild(NameString);
+            
+            Element description = doc.createElement("Description");
+            description.setNodeValue(_Description);
+            DamCat.appendChild(description);
+            
+            Element Rebuild = doc.createElement("Rebuild");
+            Rebuild.setNodeValue(Integer.toString(_ReconstructionPeriod));
+            DamCat.appendChild(Rebuild);
+            
+            Element CostFactor = doc.createElement("CostFactor");
+            CostFactor.setNodeValue(Double.toString(_CostFactor));
+            DamCat.appendChild(CostFactor);
+            return DamCat;
+            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(DamageCategory.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }
