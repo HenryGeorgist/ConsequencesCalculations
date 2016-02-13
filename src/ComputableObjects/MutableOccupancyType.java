@@ -93,6 +93,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
         return Output;
     }
     @Override
+//<editor-fold defaultstate="collapsed" desc="Serialization">
     public void ReadFromXMLElement(Element ele) {
         //need to match LifeSim, FIA, and GeoFDA's spec.
         _Name = ele.getAttribute("Name");
@@ -160,7 +161,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
             StructDD.setAttribute("CalculateDamage", Boolean.toString(_hasStructureDamage));
             if(_hasStructureDamage){//should i save any data regardless?
                 if(_StructureDamageFunction.GetYDistributions().size()>0){
-                    //StructDD.appendChild(_StructureDamageFunction.WriteToXML());  
+                    StructDD.appendChild(_StructureDamageFunction.WriteToXMLElement());
                 }
             }
             Occtype.appendChild(StructDD);
@@ -169,7 +170,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
             ContentDD.setAttribute("CalculateDamage", Boolean.toString(_hasContentDamage));
             if(_hasContentDamage){//should i save any data regardless?
                 if(_ContentDamageFunction.GetYDistributions().size()>0){
-                    //ContentDD.appendChild(_ContentDamageFunction.WriteToXML());  
+                    ContentDD.appendChild(_ContentDamageFunction.WriteToXMLElement());
                 }
             }
             Occtype.appendChild(ContentDD);
@@ -178,7 +179,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
             OtherDD.setAttribute("CalculateDamage", Boolean.toString(_hasOtherDamage));
             if(_hasOtherDamage){//should i save any data regardless?
                 if(_OtherDamageFunction.GetYDistributions().size()>0){
-                    //OtherDD.appendChild(_OtherDamageFunction.WriteToXML());  
+                    OtherDD.appendChild(_OtherDamageFunction.WriteToXMLElement());
                 }
             }
             Occtype.appendChild(OtherDD);
@@ -187,7 +188,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
             CarDD.setAttribute("CalculateDamage", Boolean.toString(_hasCarDamage));
             if(_hasCarDamage){//should i save any data regardless?
                 if(_CarDamageFunction.GetYDistributions().size()>0){
-                    //CarDD.appendChild(_CarDamageFunction.WriteToXML());  
+                    CarDD.appendChild(_CarDamageFunction.WriteToXMLElement());
                 }
             }
             Occtype.appendChild(CarDD);
@@ -198,6 +199,7 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
         }
         return null;
     }
+//</editor-fold>
     @Override
     public ConsequencesErrorReport Validate() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
