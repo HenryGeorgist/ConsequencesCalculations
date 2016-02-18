@@ -109,8 +109,22 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
         _OtherValueUncertainty.ReadFromXML((Element)ele.getElementsByTagName("OtherUncertainty").item(0).getChildNodes().item(0));
         _CarValueUncertainty.ReadFromXML((Element)ele.getElementsByTagName("VehicleUncertainty").item(0).getChildNodes().item(0));
         
-        //depth damage relationships and damage compute booleans.
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        _hasStructureDamage = Boolean.parseBoolean(ele.getElementsByTagName("StructureDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
+        if(_hasStructureDamage){
+            _StructureDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("StructureDD").item(0).getChildNodes().item(0));
+        }
+        _hasContentDamage = Boolean.parseBoolean(ele.getElementsByTagName("ContentDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
+        if(_hasContentDamage){
+            _ContentDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("ContentDD").item(0).getChildNodes().item(0));
+        }
+        _hasOtherDamage = Boolean.parseBoolean(ele.getElementsByTagName("OtherDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
+        if(_hasOtherDamage){
+            _OtherDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("OtherDD").item(0).getChildNodes().item(0));
+        }
+        _hasCarDamage = Boolean.parseBoolean(ele.getElementsByTagName("VehicleDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
+        if(_hasCarDamage){
+            _CarDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("VehicleDD").item(0).getChildNodes().item(0));
+        }
     }
     @Override
     public Element WriteToXMLElement() {
