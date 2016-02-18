@@ -6,6 +6,7 @@
 package ComputableObjects;
 
 import Utils.ConsequencesErrorReport;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -13,6 +14,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *This is a fully defined occupancy type, it has all of the uncertainty defined.  It can produce Immutable Occupancy Types based on a seed. It is used for editing validating and writing to file.
@@ -62,6 +65,9 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
     public TabularFunctions.ISampleWithUncertainty getOtherDamageFunction(){return _OtherDamageFunction;}
     public void setOtherDamageFunction(TabularFunctions.ISampleWithUncertainty NewDamageFunction){_OtherDamageFunction = NewDamageFunction;}
 //</editor-fold>
+    public MutableOccupancyType(Element ele){
+        ReadFromXMLElement(ele);
+    }
     public ImmutableOccupancyType GetOcctypeSample(long Seed){
         java.util.Random R = new java.util.Random(Seed);
         //sample all of the curves
@@ -98,12 +104,11 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
         //need to match LifeSim, FIA, and GeoFDA's spec.
         _Name = ele.getAttribute("Name");
         //what if the node list has no values?
-        _Description = ele.getElementsByTagName("Description").item(0).getNodeValue();
-        _DamageCategory.ReadFromXMLElement((Element)ele.getElementsByTagName("DamageCategory").item(0));//not sure this works.
-        _NumberOfStories = Integer.parseInt(ele.getElementsByTagName("NumberOfStories").item(0).getNodeValue());
-        _NumberOfHouseholds = Double.parseDouble(ele.getElementsByTagName("NumberOfHouseHolds").item(0).getNodeValue());
-        
-        _FoundationHeight.ReadFromXML((Element)ele.getElementsByTagName("FoundationHeightUncertainty").item(0).getChildNodes().item(0));
+        _Description = ele.getElementsByTagName("Description").item(0).getChildNodes().item(0).getNodeValue();
+        //_DamageCategory.ReadFromXMLElement((Element)ele.getElementsByTagName("DamageCategory").item(0));//not sure this works.
+        //_NumberOfStories = Integer.parseInt(ele.getElementsByTagName("NumberOfStories").item(0).getNodeValue());
+        //_NumberOfHouseholds = Double.parseDouble(ele.getElementsByTagName("NumberOfHouseHolds").item(0).getNodeValue());
+        _FoundationHeight = Distributions.ContinuousDistribution.ReadFromXML((Element)ele.getElementsByTagName("FoundationHeightUncertainty").item(0).getChildNodes().item(1));//not sure why 1 works.
         _StructureValueUncertainty.ReadFromXML((Element)ele.getElementsByTagName("StructureUncertainty").item(0).getChildNodes().item(0));
         _ContentValueUncertainty.ReadFromXML((Element)ele.getElementsByTagName("ContentUncertainty").item(0).getChildNodes().item(0));
         _OtherValueUncertainty.ReadFromXML((Element)ele.getElementsByTagName("OtherUncertainty").item(0).getChildNodes().item(0));
@@ -111,19 +116,19 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
         
         _hasStructureDamage = Boolean.parseBoolean(ele.getElementsByTagName("StructureDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
         if(_hasStructureDamage){
-            _StructureDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("StructureDD").item(0).getChildNodes().item(0));
+            _StructureDamageFunction = TabularFunctions.XMLReadableFactory.ReadXMLElement((Element)ele.getElementsByTagName("StructureDD").item(0).getChildNodes().item(0));
         }
         _hasContentDamage = Boolean.parseBoolean(ele.getElementsByTagName("ContentDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
         if(_hasContentDamage){
-            _ContentDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("ContentDD").item(0).getChildNodes().item(0));
+            _ContentDamageFunction = TabularFunctions.XMLReadableFactory.ReadXMLElement((Element)ele.getElementsByTagName("ContentDD").item(0).getChildNodes().item(0));
         }
         _hasOtherDamage = Boolean.parseBoolean(ele.getElementsByTagName("OtherDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
         if(_hasOtherDamage){
-            _OtherDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("OtherDD").item(0).getChildNodes().item(0));
+            _OtherDamageFunction = TabularFunctions.XMLReadableFactory.ReadXMLElement((Element)ele.getElementsByTagName("OtherDD").item(0).getChildNodes().item(0));
         }
         _hasCarDamage = Boolean.parseBoolean(ele.getElementsByTagName("VehicleDD").item(0).getAttributes().getNamedItem("CalculateDamage").toString());
         if(_hasCarDamage){
-            _CarDamageFunction.ReadFromXMLElement((Element)ele.getElementsByTagName("VehicleDD").item(0).getChildNodes().item(0));
+            _CarDamageFunction = TabularFunctions.XMLReadableFactory.ReadXMLElement((Element)ele.getElementsByTagName("VehicleDD").item(0).getChildNodes().item(0));
         }
     }
     @Override

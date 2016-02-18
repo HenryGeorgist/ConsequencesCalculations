@@ -40,6 +40,7 @@ public class OccupancyTypeCollection implements Utils.ISerializeToXMLElement, Ut
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
             _Occtypes = new ArrayList<>();
             ReadFromXMLElement((Element)doc.getElementsByTagName("OccupancyTypes").item(0));
         } catch (ParserConfigurationException | SAXException | IOException ex) {
@@ -49,6 +50,9 @@ public class OccupancyTypeCollection implements Utils.ISerializeToXMLElement, Ut
     @Override
     public void ReadFromXMLElement(Element ele) {
         //loop through all elements and create occupancy types and add them to the list.
+        for(int i = 0; i<ele.getElementsByTagName("OccupancyType").getLength();i++){
+            _Occtypes.add(new MutableOccupancyType((Element)ele.getElementsByTagName("OccupancyType").item(i)));
+        }
     }
 
     @Override
