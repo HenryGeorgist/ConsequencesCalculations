@@ -14,6 +14,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 /**
  *This is a fully defined occupancy type, it has all of the uncertainty defined.  It can produce Immutable Occupancy Types based on a seed. It is used for editing validating and writing to file.
  * @author Will_and_Sara
@@ -102,7 +104,9 @@ public class MutableOccupancyType implements Utils.ISerializeToXMLElement, Utils
         _Name = ele.getAttribute("Name");
         //what if the node list has no values?
         _Description = ele.getElementsByTagName("Description").item(0).getChildNodes().item(0).getNodeValue();
-        //_DamageCategory.ReadFromXMLElement((Element)ele.getElementsByTagName("DamageCategory").item(0));//not sure this works.
+        Node N = ele.getChildNodes().item(1);
+        Element E = (Element)N;
+        _DamageCategory = new ComputableObjects.DamageCategory(E);//not sure this works.
         //_NumberOfStories = Integer.parseInt(ele.getElementsByTagName("NumberOfStories").item(0).getNodeValue());
         //_NumberOfHouseholds = Double.parseDouble(ele.getElementsByTagName("NumberOfHouseHolds").item(0).getNodeValue());
         _FoundationHeight = ContinuousDistribution.ReadFromXML((Element)ele.getElementsByTagName("FoundationHeightUncertainty").item(0).getChildNodes().item(1));//not sure why 1 works.

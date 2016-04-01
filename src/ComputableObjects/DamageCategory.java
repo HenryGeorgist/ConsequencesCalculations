@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -37,9 +38,15 @@ public class DamageCategory implements Utils.ISerializeToXMLElement{
         _Name = "";
         _ReconstructionPeriod = 365;
     }
+    public DamageCategory(Element ele){
+        ReadFromXMLElement(ele);
+    }
     @Override
-    public void ReadFromXMLElement(Element ele) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public final void ReadFromXMLElement(Element ele) {
+        if(ele.hasAttribute("Name")){_Name = ele.getAttribute("Name");}
+        if(ele.hasAttribute("Description")){_Description = ele.getAttribute("Description");}
+        if(ele.hasAttribute("Rebuild")){_ReconstructionPeriod = Integer.parseInt(ele.getAttribute("Rebuild"));}
+        if(ele.hasAttribute("CostFactor")){_CostFactor = Double.parseDouble(ele.getAttribute("CostFactor"));}
     }
     @Override
     public Element WriteToXMLElement() {
@@ -49,22 +56,10 @@ public class DamageCategory implements Utils.ISerializeToXMLElement{
             Db = d.newDocumentBuilder();
             Document doc = Db.newDocument();
             Element DamCat = doc.createElement("DamageCategory");
-            
-            Element NameString = doc.createElement("Name");
-            NameString.setNodeValue(_Name);
-            DamCat.appendChild(NameString);
-            
-            Element description = doc.createElement("Description");
-            description.setNodeValue(_Description);
-            DamCat.appendChild(description);
-            
-            Element Rebuild = doc.createElement("Rebuild");
-            Rebuild.setNodeValue(Integer.toString(_ReconstructionPeriod));
-            DamCat.appendChild(Rebuild);
-            
-            Element CostFactor = doc.createElement("CostFactor");
-            CostFactor.setNodeValue(Double.toString(_CostFactor));
-            DamCat.appendChild(CostFactor);
+            DamCat.setAttribute("Name", _Name);
+            DamCat.setAttribute("Description", _Description);
+            DamCat.setAttribute("Rebuild", Integer.toString(_ReconstructionPeriod));
+            DamCat.setAttribute("CostFactor",Double.toString(_CostFactor));
             return DamCat;
             
         } catch (ParserConfigurationException ex) {
